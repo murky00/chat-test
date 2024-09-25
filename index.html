@@ -19,6 +19,97 @@
             <button id="send-button">发送</button>
         </div>
     </div>
-    <script src="script.js"></script>
+    <script>
+        const chatMessages = document.getElementById('chat-messages');
+        const userMessage = document.getElementById('user-message');
+        const sendButton = document.getElementById('send-button');
+
+        const minecraftResponses = {
+            "挖矿": [
+                "挖矿时记得带上足够的火把，不然你可能会在黑暗中遇到一群想和你跳舞的骷髅。",
+                "听说有人挖到了钻石，结果发现那只是发光的蓝色石头...你可别上当啊！",
+                "在Y轴11层挖矿效率最高，但小心别挖到自己的脚下，我可不想看到你变成岩浆烤肉。"
+            ],
+            "建造": [
+                "试试用泥土盖房子吧，保证下雨天给你一个惊喜！",
+                "如果你的建筑看起来像一堆方块，别担心，那正是Minecraft的精髓。",
+                "在屋顶上放个南瓜灯，这样晚上飞过的女巫会以为那是她们的聚会地点。"
+            ],
+            "生存": [
+                "如果你听到'嘶嘶'声，那可能是爬行者在问你要不要一起放烟花。",
+                "尝试用仙人掌做床，保证你睡得比平常更'精神'。",
+                "如果你在沙漠里迷路了，试试跟着兔子走，没准能找到胡萝卜地。"
+            ],
+            "红石": [
+                "红石电路太复杂？试试用一堆TNT，保证一按就通！",
+                "听说有人用红石做了个会说话的机器，结果它只会说'嘿嘿嘿'。",
+                "如果你的红石装置不工作，试试对着它唱首歌，没准它就害羞地动起来了。"
+            ],
+            "附魔": [
+                "小心别把自己附魔成一只鸡，虽然那样你就可以下蛋了。",
+                "有个秘密附魔，可以让你的剑变成胡萝卜，怪物看到会笑死的。",
+                "如果你给靴子附魔了水上行走，别忘了还要给裤子附魔防水，不然你会很尴尬的。"
+            ],
+            "生物": [
+                "试试和末影人玩捉迷藏，它们特别擅长这个游戏。",
+                "如果你看到一只粉色的羊，那可能是它偷吃了你的口红。",
+                "村民们其实在开派对，只是每次看到你就装作在工作的样子。"
+            ],
+            "探索": [
+                "在末地找到了一家麦当劳？那可能是饥饿的末影龙开的。",
+                "如果你在海底神殿里看到美人鱼，记得提醒我该去看眼科了。",
+                "有人说在地狱里有个冰淇淋店，但我怀疑那只是岩浆的错觉。"
+            ]
+        };
+
+        function getRandomResponse(topic) {
+            const responses = minecraftResponses[topic] || minecraftResponses["探索"];
+            return responses[Math.floor(Math.random() * responses.length)];
+        }
+
+        function addMessage(sender, message) {
+            const messageElement = document.createElement('div');
+            messageElement.innerHTML = `<strong>${sender}:</strong> ${message}`;
+            chatMessages.appendChild(messageElement);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function sendMessage() {
+            const message = userMessage.value.trim();
+            if (message) {
+                addMessage('玩家', message);
+                userMessage.value = '';
+                const topic = Object.keys(minecraftResponses).find(key => message.toLowerCase().includes(key)) || "探索";
+                const response = getRandomResponse(topic);
+                setTimeout(() => addMessage('AI', response), 500);
+            }
+        }
+
+        sendButton.addEventListener('click', sendMessage);
+        userMessage.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // 随机事件
+        const randomEvents = [
+            "哎呀！一只爬行者刚刚从你背后经过，还好它今天心情不错。",
+            "看！天上飞过一群鹦鹉。等等，Minecraft里有鹦鹉吗？",
+            "你听到了吗？好像有人在唱'Diggy Diggy Hole'...",
+            "哇，一只绵羊刚刚用彩虹色染料给自己染了毛！",
+            "小心！你的背包里的TNT看起来有点不安分..."
+        ];
+
+        setInterval(() => {
+            if (Math.random() < 0.3) {
+                const event = randomEvents[Math.floor(Math.random() * randomEvents.length)];
+                addMessage('系统', event);
+            }
+        }, 30000);
+
+        // 添加初始消息
+        addMessage('AI', '嘿，欢迎来到Minecraft的方块世界！我是你的AI助手，既幽默又博学。你想了解关于挖矿、建造、生存、红石、附魔、生物或探索的什么呢？');
+    </script>
 </body>
 </html>
