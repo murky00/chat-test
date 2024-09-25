@@ -33,7 +33,7 @@
             "建造": [
                 "试试用泥土盖房子吧，保证下雨天给你一个惊喜！",
                 "如果你的建筑看起来像一堆方块，别担心，那正是Minecraft的精髓。",
-                "在屋顶上放个南瓜灯，这样晚上飞过的女巫会以为那是她们的聚会地点。"
+                "在屋顶上放个南瓜灯，这样晚上飞过的女巫会以为那是她们的聚会��点。"
             ],
             "生存": [
                 "如果你听到'嘶嘶'声，那可能是爬行者在问你要不要一起放烟花。",
@@ -62,9 +62,23 @@
             ]
         };
 
+        const generalResponses = [
+            "这是个有趣的问题！让我想想...",
+            "哇，你的问题让我的电路都兴奋起来了！",
+            "嗯...这个问题比末影龙还难缠啊。不过我喜欢挑战！",
+            "你知道吗，你的问题让我想起了一个有趣的Minecraft小故事...",
+            "我得好好思考一下这个问题。也许我们应该一起在Minecraft世界里探索答案？",
+            "这个问题很棒！它让我想到了Minecraft中的无限可能性。",
+            "有意思！这让我想起了Steve的一次冒险经历...",
+            "我得说，你的问题比红石电路还要复杂。不过别担心，我们一起来解开这个谜题！"
+        ];
+
         function getRandomResponse(topic) {
-            const responses = minecraftResponses[topic] || minecraftResponses["探索"];
-            return responses[Math.floor(Math.random() * responses.length)];
+            if (minecraftResponses[topic]) {
+                return minecraftResponses[topic][Math.floor(Math.random() * minecraftResponses[topic].length)];
+            } else {
+                return generalResponses[Math.floor(Math.random() * generalResponses.length)];
+            }
         }
 
         function addMessage(sender, message) {
@@ -74,13 +88,30 @@
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
 
+        function generateResponse(message) {
+            const lowercaseMessage = message.toLowerCase();
+            const topics = Object.keys(minecraftResponses);
+            const matchedTopic = topics.find(topic => lowercaseMessage.includes(topic));
+
+            if (matchedTopic) {
+                return getRandomResponse(matchedTopic);
+            } else if (lowercaseMessage.includes("你好") || lowercaseMessage.includes("嗨")) {
+                return "嗨！很高兴见到你！我是你的Minecraft AI助手。想聊些什么呢？";
+            } else if (lowercaseMessage.includes("再见") || lowercaseMessage.includes("拜拜")) {
+                return "再见！希望你在Minecraft世界中玩得开心。记得小心苦力怕哦！";
+            } else if (lowercaseMessage.includes("谢谢") || lowercaseMessage.includes("感谢")) {
+                return "不用谢！能帮到你我很开心。如果你还有其他问题，尽管问我吧！";
+            } else {
+                return getRandomResponse();
+            }
+        }
+
         function sendMessage() {
             const message = userMessage.value.trim();
             if (message) {
                 addMessage('玩家', message);
                 userMessage.value = '';
-                const topic = Object.keys(minecraftResponses).find(key => message.toLowerCase().includes(key)) || "探索";
-                const response = getRandomResponse(topic);
+                const response = generateResponse(message);
                 setTimeout(() => addMessage('AI', response), 500);
             }
         }
@@ -109,7 +140,7 @@
         }, 30000);
 
         // 添加初始消息
-        addMessage('AI', '嘿，欢迎来到Minecraft的方块世界！我是你的AI助手，既幽默又博学。你想了解关于挖矿、建造、生存、红石、附魔、生物或探索的什么呢？');
+        addMessage('AI', '嘿，欢迎来到Minecraft的方块世界！我是你的AI助手，既幽默又博学。你想了解关于挖矿、建造、生存、红石、附魔、生物或探索的什么呢？或者，你有什么其他有趣的问题？');
     </script>
 </body>
 </html>
