@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minecraft AI 聊天机器人</title>
+    <title>Minecraft AI 聊天机器人 & 挖矿游戏</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -19,6 +19,24 @@
             <button id="send-button">发送</button>
         </div>
     </div>
+
+    <div id="game-container">
+        <h2>Minecraft 挖矿游戏</h2>
+        <p>点击方块来挖矿。不同的矿石有不同的分数：</p>
+        <ul>
+            <li>钻石矿：50分</li>
+            <li>金矿：25分</li>
+            <li>铁矿：10分</li>
+            <li>煤矿：5分</li>
+            <li>石头：1分</li>
+        </ul>
+        <canvas id="game-canvas" width="400" height="300"></canvas>
+        <button id="start-game-button">开始游戏</button>
+        <button id="return-top-button" style="display: none;">返回顶部</button>
+    </div>
+
+    <script src="game.js"></script>
+
     <script>
         const chatMessages = document.getElementById('chat-messages');
         const userMessage = document.getElementById('user-message');
@@ -33,7 +51,7 @@
             "建造": [
                 "试试用泥土盖房子吧，保证下雨天给你一个惊喜！",
                 "如果你的建筑看起来像一堆方块，别担心，那正是Minecraft的精髓。",
-                "在屋顶上放个南瓜灯，这样晚上飞过的女巫会以为那是她们的聚会��点。"
+                "在屋顶上放个南瓜灯，这样晚上飞过的女巫会以为那是她们的聚会点。"
             ],
             "生存": [
                 "如果你听到'嘶嘶'声，那可能是爬行者在问你要不要一起放烟花。",
@@ -140,7 +158,7 @@
         }, 30000);
 
         // 添加初始消息
-        addMessage('AI', '嘿，欢迎来到Minecraft的方块世界！我是你的AI助手，既幽默又博学。你想了解关于挖矿、建造、生存、红石、附魔、生物或探索的什么呢？或者，你有什么其他有趣的问题？');
+        addMessage('AI', '嘿，欢迎来到Minecraft的方块世界！我是你的AI助手，既幽默又博学。你想了解关于挖矿、建造、生存、红石、附魔、生物或探索的什么呢？或者，你什么其他有趣的问题？');
     </script>
 </body>
 </html>
